@@ -1,9 +1,14 @@
 import sqlite3
+import json
 from sqlite3 import Error
 
-def create_connection(db_file):
-    conn = None
-    petTableSQL = "CREATE TABLE IF NOT EXISTS Pet ( \
+'''
+create_table(conn, petTableSQL)
+        create_table(conn, foodTableSQL)
+        create_table(conn, bowlTableSQL)
+        create_table(conn, weightTableSQL)
+
+ petTableSQL = "CREATE TABLE IF NOT EXISTS Pet ( \
                         pet_id integer PRIMARY KEY AUTOINCREMENT, \
                         name text NOT NULL, \
                         animal_type text, \
@@ -33,16 +38,17 @@ def create_connection(db_file):
                         FOREIGN KEY (pet_id) REFERENCES Pet (pet_id), \
                         FOREIGN KEY (bowl_id) REFERENCES FoodBowl (bowl_id) \
                     );"
+'''
+
+
+def create_connection(db_file):
+    conn = None
 
     try:
         conn = sqlite3.connect(db_file)
         print(sqlite3.version)
-        create_table(conn, petTableSQL)
-        create_table(conn, foodTableSQL)
-        create_table(conn, bowlTableSQL)
-        create_table(conn, weightTableSQL)
 
-        print("Tables created!")
+
     except Error as e:
         print(e)
     finally:
@@ -56,3 +62,19 @@ def create_table(conn, create_table_sql):
         c.execute(create_table_sql)
     except Error as e:
         print(e)
+
+
+def select_pets(db_file):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT * FROM Pet")
+        pets = c.fetchall()
+        c.close()
+        return json.dumps(pets)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()

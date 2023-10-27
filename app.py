@@ -10,6 +10,11 @@ CORS(app)
 def get_current_time():
     return {'time': time.time()}
 
+@app.route('/pets')
+def get_pets():
+    pets = select_pets(r"PawsenseDB")
+    return pets
+
 
 print("???")
 # create_connection(r"C:\sqlite\db\pawsense.db")
