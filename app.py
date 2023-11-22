@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 #from flask_cors import CORS
 from databasesetup import *
 
@@ -26,8 +26,9 @@ data_file = 'weight_data.txt'
 read_data(data_file)
 @app.route('/Weights')
 def weight():
-    labels = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f').strftime('%Y-%m-%d %I:%M %p') for time in time_data]
-    data = weight_data
+    time = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f').strftime('%Y-%m-%d %I:%M %p') for time in time_data]
+    weights = weight_data
+    return jsonify({"time_json": time, "weights_json": weights})
     header = "This is the weight line graph"
     return render_template('weight_line_graph.html', data=data, labels=labels, header=header)
 
