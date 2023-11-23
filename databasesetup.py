@@ -79,13 +79,31 @@ def select_pets(db_file):
         if conn:
             conn.close()
 
-def add_weight(db_file, time, weight):
+def add_weight(db_file, t, w):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
         c = conn.cursor()
-        c.execute("INSERT INTO Weight VALUES(" + time + ", " + weight + ")")
+        time = "'" + t + "'"
+        statement = "INSERT INTO Weight (time, weight) VALUES ({}, {})".format(time, w)
+        c.execute(statement)
+        conn.commit()
         c.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def select_weights(db_file):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT * FROM Weight")
+        weights = c.fetchall()
+        c.close()
+        return json.dumps(weights)
     except Error as e:
         print(e)
     finally:

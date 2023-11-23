@@ -40,6 +40,11 @@ def get_pets():
     pets = select_pets(r"PawsenseDB")
     return pets
 
+@app.route('/weights')
+def get_weights():
+    weights = select_weights(r"PawsenseDB")
+    return weights
+
 @app.route('/upload_data', methods=['POST'])
 def upload_data():
     data_file = request.files['data']
