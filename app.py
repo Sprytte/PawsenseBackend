@@ -10,7 +10,6 @@ app = Flask(__name__)
 time_data = []
 weight_data = []
 def read_data(file):
-
     with open(file, 'r') as file:
         for line in file:
             parts = line.split(',')
@@ -45,12 +44,16 @@ def get_pets():
 def upload_data():
     data_file = request.files['data']
     data_file.save('weight_data.txt')
-    return 'Data received successfully'
+    return 'File received successfully'
+
+@app.route('/upload_weight', methods=['POST'])
+def upload_weight():
+    value = request.json
+    add_weight(r"PawsenseDB", value['time'], value['weight'])
+    return "Data received successfully"
 
 # create_connection(r"C:\sqlite\db\pawsense.db")
 
 create_connection(r"PawsenseDB")
 if __name__ == '__main__':
     app.run()
-
-

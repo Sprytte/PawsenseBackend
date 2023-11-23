@@ -78,3 +78,16 @@ def select_pets(db_file):
     finally:
         if conn:
             conn.close()
+
+def add_weight(db_file, time, weight):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("INSERT INTO Weight VALUES(" + time + ", " + weight + ")")
+        c.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
