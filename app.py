@@ -1,4 +1,5 @@
 import time
+import os
 from datetime import datetime
 from flask import Flask, request, render_template, jsonify
 #from flask_cors import CORS
@@ -47,8 +48,20 @@ def get_weights():
 
 @app.route('/upload_data', methods=['POST'])
 def upload_data():
+    time = ""
+    weight = 0
     data_file = request.files['data']
     data_file.save('weight_data.txt')
+    with open("weight_data.txt", 'r') as file:
+        for line in file:
+            parts = line.split(',')
+            for part in parts:
+                if part.strip().startswith("time:"):
+                    time = part.strip().replace("time:", "").strip()
+                elif part.strip().startswith("weight:"):
+                    weight = float(part.strip().replace("weight:", "").strip())
+            add_weight(r"PawsenseDB", time, weight)
+    open('weight_data.txt', 'w').close()
     return 'File received successfully'
 
 @app.route('/upload_weight', methods=['POST'])
