@@ -42,17 +42,9 @@ def get_pets():
     return (pets)
 
 @app.route('/login')
-def login():
-    username = request.args.get('username')
-    password = request.args.get('password')
-
-    user = get_user_by_credentials(r"PawsenseDB", username, password)
-
-    if user:
-        return jsonify({"user": user}), 200
-    else:
-        return jsonify({"message": "Invalid username or password"}), 401
-
+def get_user():
+    user = get_users(r"PawsenseDB")
+    return user
 
 @app.route('/weights')
 def get_weights():
