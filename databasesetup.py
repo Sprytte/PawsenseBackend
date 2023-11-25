@@ -100,10 +100,25 @@ def select_weights(db_file):
     try:
         conn = sqlite3.connect(db_file)
         c = conn.cursor()
-        c.execute("SELECT * FROM Weight")
+        c.execute("SELECT weight FROM Weight")
         weights = c.fetchall()
         c.close()
         return json.dumps(weights)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def select_time(db_file):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT time FROM Weight")
+        time = c.fetchall()
+        c.close()
+        return json.dumps(time)
     except Error as e:
         print(e)
     finally:

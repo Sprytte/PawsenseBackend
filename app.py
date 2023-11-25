@@ -26,8 +26,8 @@ data_file = 'weight_data.txt'
 read_data(data_file)
 @app.route('/Weights')
 def weight():
-    time = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f').strftime('%Y-%m-%d %I:%M %p') for time in time_data]
-    weights = weight_data
+    time = select_time(r"PawsenseDB")
+    weights = select_weights(r"PawsenseDB")
     return jsonify({"time_json": time, "weights_json": weights})
     header = "This is the weight line graph"
     return render_template('weight_line_graph.html', data=data, labels=labels, header=header)
