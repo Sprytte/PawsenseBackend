@@ -109,3 +109,18 @@ def select_weights(db_file):
     finally:
         if conn:
             conn.close()
+
+def get_user_by_credentials(db_file, username, password):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT * FROM Users WHERE username = ? AND password = ?", (username, password))
+        user = c.fetchone()
+        c.close()
+        return user
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
