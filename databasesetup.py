@@ -110,6 +110,21 @@ def select_weights(db_file):
         if conn:
             conn.close()
 
+def select_time(db_file):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT time FROM Weight")
+        time = c.fetchall()
+        c.close()
+        return json.dumps(time)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
 def get_users(db_file):
     conn = None
     try:
@@ -119,6 +134,21 @@ def get_users(db_file):
         user = c.fetchall()
         c.close()
         return json.dumps(user)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def get_by_pet_id(db_file, pet_id):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT * FROM Pet WHERE pet_id=?", (pet_id,))
+        pet = c.fetchone()  # Use fetchone to get a single row
+        c.close()
+        return json.dumps(pet)
     except Error as e:
         print(e)
     finally:
