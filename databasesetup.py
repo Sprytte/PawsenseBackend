@@ -144,3 +144,18 @@ def get_users(db_file):
     finally:
         if conn:
             conn.close()
+
+def get_by_pet_id(db_file, pet_id):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT * FROM Pet WHERE pet_id=?", (pet_id,))
+        pet = c.fetchone()  # Use fetchone to get a single row
+        c.close()
+        return json.dumps(pet)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()

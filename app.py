@@ -1,10 +1,10 @@
 import time
 from flask import Flask, request, render_template, jsonify
-#from flask_cors import CORS
+from flask_cors import CORS
 from databasesetup import *
 
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 
 #Endpoint to display the graph
 @app.route('/Weights')
@@ -19,6 +19,10 @@ def weight():
 def get_pets():
     pets = select_pets(r"PawsenseDB")
     return (pets)
+@app.route('/pets/<int:pet_id>/', methods=['GET'])
+def get_pet_id(pet_id):
+    pet_by_id = get_by_pet_id(r"PawsenseDB", pet_id)
+    return (pet_by_id)
 
 @app.route('/login')
 def get_user():
