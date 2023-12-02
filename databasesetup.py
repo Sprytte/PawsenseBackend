@@ -101,7 +101,12 @@ def select_weights(db_file):
         conn = sqlite3.connect(db_file)
         c = conn.cursor()
         c.execute("SELECT weight FROM Weight")
-        weights = c.fetchall()
+        weightss = c.fetchall()
+        weights = []
+        for w in weightss:
+            w = str(w).translate({ord(i): None for i in '(,)'})
+            weight = int(float(w))
+            weights.append(weight)
         c.close()
         return json.dumps(weights)
     except Error as e:
