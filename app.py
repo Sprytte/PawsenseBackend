@@ -6,7 +6,6 @@ from databasesetup import *
 app = Flask(__name__)
 CORS(app)
 
-#Endpoint to display the graph
 @app.route('/Weights')
 def weight():
     time = select_time(r"PawsenseDB")

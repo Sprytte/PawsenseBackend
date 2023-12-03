@@ -1,5 +1,6 @@
 import sqlite3
 import json
+from datetime import datetime
 from sqlite3 import Error
 
 '''
@@ -123,7 +124,8 @@ def select_time(db_file):
         c.execute("SELECT time FROM Weight")
         time = c.fetchall()
         c.close()
-        return json.dumps(time)
+        formatted_times = [datetime.strptime(t[0], '%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M') for t in time]
+        return json.dumps(formatted_times)
     except Error as e:
         print(e)
     finally:
