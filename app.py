@@ -33,6 +33,7 @@ def get_user():
 def upload_data():
     time = ""
     weight = 0
+    pet = 0
     data_file = request.files['data']
     data_file.save('weight_data.txt')
     with open("weight_data.txt", 'r') as file:
@@ -44,7 +45,9 @@ def upload_data():
                     time = part.strip().replace("time:", "").strip()
                 elif part.strip().startswith("weight:"):
                     weight = float(part.strip().replace("weight:", "").strip())
-            add_weight(r"PawsenseDB", time, weight)
+                elif part.strip().startswith("pet_id:"):
+                    pet = float(part.strip().replace("pet_id:", "").strip())
+            add_weight(r"PawsenseDB", time, weight, pet)
     open('weight_data.txt', 'w').close() #empty file
     return 'File received successfully'
 
@@ -52,7 +55,7 @@ def upload_data():
 @app.route('/upload_weight', methods=['POST'])
 def upload_weight():
     value = request.json
-    add_weight(r"PawsenseDB", value['time'], value['weight'])
+    add_weight(r"PawsenseDB", value['time'], value['weight'], value['pet_id'])
     return "Data received successfully"
 
 # create_connection(r"C:\sqlite\db\pawsense.db")

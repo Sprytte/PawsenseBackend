@@ -80,13 +80,13 @@ def select_pets(db_file):
         if conn:
             conn.close()
 
-def add_weight(db_file, t, w):
+def add_weight(db_file, t, w, p):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
         c = conn.cursor()
         time = "'" + t + "'"
-        statement = "INSERT INTO Weight (time, weight) VALUES ({}, {})".format(time, w)
+        statement = "INSERT INTO FoodBowl (pet_id, time, weight) VALUES ({}, {}, {})".format(p, time, w)
         c.execute(statement)
         conn.commit()
         c.close()
