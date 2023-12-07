@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Pawsense.iml" filepath="$PROJECT_DIR$/.idea/Pawsense.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PawsenseBackend.iml" filepath="$PROJECT_DIR$/.idea/PawsenseBackend.iml" />
     </modules>
   </component>
 </project>

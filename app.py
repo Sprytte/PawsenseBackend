@@ -14,6 +14,14 @@ def weight():
     header = "This is the weight line graph"
     return render_template('weight_line_graph.html', data=data, labels=labels, header=header)
 
+#getting data for individual pet graphs by pet ids
+@app.route('/foodBowlWeight/<int:petId>')
+def foodBowlWeight(petId):
+    time = select_time_foodBowl_for_pet(r"PawsenseDB", petId)
+    weights = select_weights_foodBowl_for_pet(r"PawsenseDB", petId)
+    return jsonify({"time_json": time, "weights_json": weights, "pet_id": petId})
+
+
 @app.route('/pets')
 def get_pets():
     pets = select_pets(r"PawsenseDB")

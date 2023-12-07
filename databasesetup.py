@@ -132,6 +132,43 @@ def select_time(db_file):
         if conn:
             conn.close()
 
+def select_weights_foodBowl_for_pet(db_file, pet_id):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT weight FROM FoodBowl WHERE pet_id=?", (pet_id,))
+        weightss = c.fetchall()
+        weights = []
+        for w in weightss:
+            w = str(w).translate({ord(i): None for i in '(,)'})
+            weight = int(float(w))
+            weights.append(weight)
+        c.close()
+        return json.dumps(weights)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def select_time_foodBowl_for_pet(db_file, pet_id):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute("SELECT time FROM FoodBowl WHERE pet_id=?", (pet_id,))
+        time = c.fetchall()
+        c.close()
+        formatted_times = [datetime.strptime(t[0], '%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M') for t in time]
+        return json.dumps(formatted_times)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+
 def get_users(db_file):
     conn = None
     try:
